@@ -1,6 +1,6 @@
 ﻿namespace CakeCompany.Models
 {
-    internal enum Transport
+    public enum Transport
     {
         Ship,
         Truck,

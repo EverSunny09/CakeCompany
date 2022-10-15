@@ -2,7 +2,7 @@
 
 //internal record Order(string ClientName, DateTime EstimatedDeliveryTime, int Id, Cake Name, double Quantity);
 
-internal class Order
+public class Order
 {
     public string ClientName { get; set; }
     public DateTime EstimatedDeliveryTime { get; set; }

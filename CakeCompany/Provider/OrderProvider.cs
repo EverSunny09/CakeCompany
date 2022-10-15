@@ -1,19 +1,14 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using CakeCompany.Models;
+﻿using CakeCompany.Models;
 using CakeCompany.Service;
 using Serilog;
 
 namespace CakeCompany.Provider;
 
-internal class OrderProvider : IOrderService
+public class OrderProvider : IOrderService
 {
-    private readonly IOrderService _orderService;
-    private readonly ICakeService _cakeService;
     private readonly IPaymentService _paymentService;
 
-    public OrderProvider(IOrderService orderService, ICakeService cakeService, IPaymentService paymentService) {
-        _orderService = orderService;
-        _cakeService = cakeService;
+    public OrderProvider(IPaymentService paymentService) {
         _paymentService = paymentService;
     }
 
@@ -68,8 +63,21 @@ internal class OrderProvider : IOrderService
     }
 
     public bool CheckEstimatedTime(Order order) {
-        DateTime estimatedBakeTime = _cakeService.Check(order);
+        DateTime estimatedBakeTime = Check(order);
         return estimatedBakeTime > order.EstimatedDeliveryTime;
+    }
+
+    public DateTime Check(Order order)
+    {
+        switch (order.Name)
+        {
+            case Cake.Chocolate:
+                return DateTime.Now.Add(TimeSpan.FromMinutes(30));
+            case Cake.RedVelvet:
+                return DateTime.Now.Add(TimeSpan.FromMinutes(60));
+            default:
+                return DateTime.Now.Add(TimeSpan.FromHours(15));
+        }
     }
 
     public bool CheckPaymentProcess(Order order) {

@@ -3,7 +3,7 @@ using CakeCompany.Service;
 
 namespace CakeCompany.Provider;
 
-internal class PaymentProvider : IPaymentService
+public class PaymentProvider : IPaymentService
 {
     public PaymentIn Process(Order order)
     {

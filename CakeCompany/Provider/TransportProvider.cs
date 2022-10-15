@@ -3,7 +3,7 @@ using CakeCompany.Service;
 
 namespace CakeCompany.Provider;
 
-internal class TransportProvider : ITransportService
+public class TransportProvider : ITransportService
 {
     public Transport CheckForAvailability(List<Product> products)
     {

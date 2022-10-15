@@ -1,13 +1,8 @@
 ﻿using CakeCompany.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CakeCompany.Service
 {
-    interface ITransportService
+    public interface ITransportService
     {
         Transport CheckForAvailability(List<Product> products);
     }

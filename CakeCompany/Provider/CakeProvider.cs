@@ -4,29 +4,16 @@ using Serilog;
 
 namespace CakeCompany.Provider;
 
-internal class CakeProvider : ICakeService 
+public class CakeProvider : ICakeService 
 {
 
-    private readonly ICakeService _cakeService;
     private readonly IOrderService _orderService;
     
-    public CakeProvider(IOrderService orderService, ICakeService cakeService) {
-        _cakeService = cakeService;
+    public CakeProvider(IOrderService orderService) {
         _orderService = orderService;
- 
     }
 
-    public DateTime Check(Order order)
-    {
-        switch (order.Name) {
-            case Cake.Chocolate:
-                return DateTime.Now.Add(TimeSpan.FromMinutes(30));
-            case Cake.RedVelvet:
-                return DateTime.Now.Add(TimeSpan.FromMinutes(60));
-            default:
-                return DateTime.Now.Add(TimeSpan.FromHours(15));
-        }
-    }
+
 
     public Product Bake(Order order)
     {
@@ -49,7 +36,7 @@ internal class CakeProvider : ICakeService
             List<Order> orders = _orderService.GetOrderToBake();
             foreach (Order order in orders)
             {
-                Product product = _cakeService.Bake(order);
+                Product product = Bake(order);
                 products.Add(product);
             }
         }

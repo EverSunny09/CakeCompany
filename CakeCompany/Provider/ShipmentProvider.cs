@@ -6,13 +6,12 @@ using Serilog;
 
 namespace CakeCompany.Provider;
 
-internal class ShipmentProvider : IShipmentService
+public class ShipmentProvider : IShipmentService
 {
     private readonly ITransportService _transportService;
     private readonly ICakeService _cakeService;
 
-    public ShipmentProvider(ITransportService transportService,
-        ICakeService cakeService) {
+    public ShipmentProvider(ITransportService transportService,  ICakeService cakeService) {
         _transportService = transportService;
         _cakeService = cakeService;
     }
@@ -31,30 +30,33 @@ internal class ShipmentProvider : IShipmentService
         catch (Exception e) {
             Log.Error(e.ToString());
         }
-       
     }
+        public void DeliverProducts(Transport transport, List<Product> products)
+        {
 
-    public void DeliverProducts(Transport transport,List<Product> products) {
+            switch (transport)
+            {
 
-        switch (transport) {
+                case Transport.Van:
+                    Van van = new Van();
+                    van.Deliver(products);
+                    break;
 
-            case Transport.Van:
-                Van van = new Van();
-                van.Deliver(products);
-                break;
+                case Transport.Truck:
+                    Truck truck = new Truck();
+                    truck.Deliver(products);
+                    break;
 
-            case Transport.Truck:
-                Truck truck = new Truck();
-                truck.Deliver(products);
-                break;
+                case Transport.Ship:
+                    Ship ship = new Ship();
+                    ship.Deliver(products);
+                    break;
 
-            case Transport.Ship:
-                Ship ship = new Ship();
-                ship.Deliver(products);
-                break;
-
-            default:
-                return;
+                default:
+                    return;
+            }
         }
+
+
+
     }
-}

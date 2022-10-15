@@ -2,7 +2,7 @@
 
 namespace CakeCompany.Service;
 
-interface IOrderService
+public interface IOrderService
 {
     List<Order> GetLatestOrders();
 
