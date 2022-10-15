@@ -20,8 +20,10 @@ internal class ShipmentProvider : IShipmentService
     public void GetShipment()
     {
         try {
+            Log.Information("Getting list of Products.");
             List<Product> products = _cakeService.GetProducts();
 
+            Log.Information("Getting method of Transport based on Product Quantity");
             Transport transport = _transportService.CheckForAvailability(products);
 
             DeliverProducts(transport, products);

@@ -21,7 +21,6 @@ public class Program {
         
 
         Console.WriteLine("Shipment Details...");
-        Console.ReadLine();
         Log.CloseAndFlush();
     }
 }

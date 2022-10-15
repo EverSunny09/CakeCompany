@@ -21,7 +21,7 @@ internal class OrderProvider : IOrderService
     {
         return new List<Order>(){
                     new Order { ClientName = "CakeBox", EstimatedDeliveryTime = DateTime.Now, Id = 1, Name = Cake.RedVelvet, Quantity=120 },
-                    new Order { ClientName = "ImportantCakeShop", EstimatedDeliveryTime = DateTime.Now, Id = 1, Name = Cake.RedVelvet, Quantity=120 }};
+                    new Order { ClientName = "ImportantCakeShop", EstimatedDeliveryTime = DateTime.Now, Id = 2, Name = Cake.RedVelvet, Quantity=120 }};
     }
 
     public void UpdateOrders(List<Order> orders)
@@ -54,11 +54,9 @@ internal class OrderProvider : IOrderService
 
     public List<Order> GetOrderToBake() {
         List<Order> ordersToBake = new List<Order>();
+        Log.Information("Getting list of all orders.");
         List<Order> orders = GetLatestOrders();
-        if (!orders.Any())
-        {
-            return new List<Order>();
-        }
+        Log.Information("Getting list of orders which are not cancelled.");
         foreach (Order order in orders)
         {
             if (!CheckEstimatedTime(order) && CheckPaymentProcess(order))

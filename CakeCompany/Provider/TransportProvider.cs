@@ -12,16 +12,11 @@ internal class TransportProvider : ITransportService
             return Transport.Van;
         }
 
-        if (products.Sum(p => p.Quantity) > 1000 && products.Sum(p => p.Quantity) < 5000)
+        else if (products.Sum(p => p.Quantity) > 1000 && products.Sum(p => p.Quantity) < 5000)
         {
             return Transport.Truck;
         }
 
         return Transport.Ship;
-    }
-
-    public bool Deliver(List<Product> products)
-    {
-        return true;
     }
 }
