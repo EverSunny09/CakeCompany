@@ -1,20 +1,20 @@
-﻿using CakeCompany.Provider;
+﻿using CakeCompany.Models;
+using CakeCompany.Provider;
 using CakeCompany.Service;
 using NUnit.Framework;
+using System;
 
 namespace CakeCompany.UnitTest
 {
     public class UnitTest
     {
+        Order order = new Order();
         [SetUp]
         public void Setup()
         {
         }
 
-        [TestCase(1, "Jignesh")]
-        [TestCase(2, "Rakesh")]
-        [TestCase(3, "Not Found")]
-        public void Test1(int empId, string name)
+        public void GetShipment()
         {
             IPaymentService paymentService = new PaymentProvider();
             IOrderService orderService = new OrderProvider(paymentService);
