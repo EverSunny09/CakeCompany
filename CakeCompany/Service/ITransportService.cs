@@ -10,7 +10,5 @@ namespace CakeCompany.Service
     interface ITransportService
     {
         Transport CheckForAvailability(List<Product> products);
-
-        bool Deliver(List<Product> products);
     }
 }

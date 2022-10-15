@@ -9,4 +9,10 @@ interface IOrderService
     void UpdateOrders(List<Order> orders);
 
     List<Order> CancelledOrders();
+
+    List<Order> GetOrderToBake();
+
+    bool CheckEstimatedTime(Order order);
+
+    bool CheckPaymentProcess(Order order);
 }

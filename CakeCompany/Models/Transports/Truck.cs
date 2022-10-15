@@ -1,10 +1,12 @@
-﻿namespace CakeCompany.Models.Transports;
+﻿using CakeCompany.Service;
 
-internal record Truck(string TransportName);
-/*internal class Truck
+namespace CakeCompany.Models.Transports;
+
+
+internal class Truck : IDeliveryService
 {
     public bool Deliver(List<Product> products)
     {
         return true;
     }
-}*/
+}

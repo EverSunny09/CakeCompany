@@ -1,6 +1,7 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using CakeCompany.Models;
 using CakeCompany.Service;
+using Serilog;
 
 namespace CakeCompany.Provider;
 
@@ -18,10 +19,9 @@ internal class OrderProvider : IOrderService
 
     public List<Order> GetLatestOrders()
     {
-         return new List<Order>(){
+        return new List<Order>(){
                     new Order { ClientName = "CakeBox", EstimatedDeliveryTime = DateTime.Now, Id = 1, Name = Cake.RedVelvet, Quantity=120 },
                     new Order { ClientName = "ImportantCakeShop", EstimatedDeliveryTime = DateTime.Now, Id = 1, Name = Cake.RedVelvet, Quantity=120 }};
-       
     }
 
     public void UpdateOrders(List<Order> orders)
@@ -30,6 +30,30 @@ internal class OrderProvider : IOrderService
 
     public List<Order> CancelledOrders() {
         List<Order> cancelledOrders = new List<Order>();
+        try {
+            List<Order> orders = GetLatestOrders();
+            if (!orders.Any())
+            {
+                return new List<Order>();
+            }
+            foreach (Order order in orders)
+            {
+                if (CheckEstimatedTime(order) || !CheckPaymentProcess(order))
+                {
+                    cancelledOrders.Add(order);
+                }
+            }
+        }
+        catch (Exception e) {
+            Log.Error(e.ToString());
+        }
+       
+        return cancelledOrders;
+        
+    }
+
+    public List<Order> GetOrderToBake() {
+        List<Order> ordersToBake = new List<Order>();
         List<Order> orders = GetLatestOrders();
         if (!orders.Any())
         {
@@ -37,24 +61,20 @@ internal class OrderProvider : IOrderService
         }
         foreach (Order order in orders)
         {
-            if (checkEstimationTime(order))
+            if (!CheckEstimatedTime(order) && CheckPaymentProcess(order))
             {
-                cancelledOrders.Add(order);
-            }
-            else if (!checkPaymentProcess(order)) {
-                cancelledOrders.Add(order);
+                ordersToBake.Add(order);
             }
         }
-        return cancelledOrders;
-        
+        return ordersToBake;
     }
 
-    public bool checkEstimationTime(Order order) {
+    public bool CheckEstimatedTime(Order order) {
         DateTime estimatedBakeTime = _cakeService.Check(order);
         return estimatedBakeTime > order.EstimatedDeliveryTime;
     }
 
-    public bool checkPaymentProcess(Order order) {
+    public bool CheckPaymentProcess(Order order) {
         return _paymentService.Process(order).IsSuccessful;
     }
 

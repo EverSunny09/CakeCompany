@@ -1,5 +1,6 @@
 ﻿using CakeCompany.Models;
 using CakeCompany.Service;
+using Serilog;
 
 namespace CakeCompany.Provider;
 
@@ -17,55 +18,58 @@ internal class CakeProvider : ICakeService
 
     public DateTime Check(Order order)
     {
-        if (order.Name == Cake.Chocolate)
-        {
-            return DateTime.Now.Add(TimeSpan.FromMinutes(30));
+        switch (order.Name) {
+            case Cake.Chocolate:
+                return DateTime.Now.Add(TimeSpan.FromMinutes(30));
+            case Cake.RedVelvet:
+                return DateTime.Now.Add(TimeSpan.FromMinutes(60));
+            default:
+                return DateTime.Now.Add(TimeSpan.FromHours(15));
         }
-
-        if (order.Name == Cake.RedVelvet)
-        {
-            return DateTime.Now.Add(TimeSpan.FromMinutes(60));
-        }
-
-        return DateTime.Now.Add(TimeSpan.FromHours(15));
     }
 
     public Product Bake(Order order)
     {
-        if (order.Name == Cake.Chocolate)
+        switch (order.Name)
         {
-            return new()
-            {
-                Cake = Cake.Chocolate,
-                Id = new Guid(),
-                Quantity = order.Quantity
-            };
+            case Cake.Chocolate:
+                return new()
+                {
+                    Cake = Cake.Chocolate,
+                    Id = new Guid(),
+                    Quantity = order.Quantity
+                };
+            case Cake.RedVelvet:
+                return new()
+                {
+                    Cake = Cake.RedVelvet,
+                    Id = new Guid(),
+                    Quantity = order.Quantity
+                };
+            default:
+                return new()
+                {
+                    Cake = Cake.Vanilla,
+                    Id = new Guid(),
+                    Quantity = order.Quantity
+                };
         }
-
-        if (order.Name == Cake.RedVelvet)
-        {
-            return new()
-            {
-                Cake = Cake.RedVelvet,
-                Id = new Guid(),
-                Quantity = order.Quantity
-            };
-        }
-
-        return new()
-        {
-            Cake = Cake.Vanilla,
-            Id = new Guid(),
-            Quantity = order.Quantity
-        };
     }
 
     public List<Product> GetProducts() {
         List<Product> products = new List<Product>();
-        Order[] orders = _orderService.GetLatestOrders();
-        foreach (Order order in orders) {
-            Product product = _cakeService.Bake(order);
-            products.Add(product);
+        try
+        {
+            List<Order> orders = _orderService.GetOrderToBake();
+            foreach (Order order in orders)
+            {
+                Product product = _cakeService.Bake(order);
+                products.Add(product);
+            }
+        }
+        catch (Exception e)
+        {
+            Log.Error(e.ToString());
         }
         return products;
     }
