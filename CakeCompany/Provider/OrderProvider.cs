@@ -16,22 +16,21 @@ internal class OrderProvider : IOrderService
         _paymentService = paymentService;
     }
 
-    public Order[] GetLatestOrders()
+    public List<Order> GetLatestOrders()
     {
-        return new Order[]
-        {
-            new("CakeBox", DateTime.Now, 1, Cake.RedVelvet, 120.25),
-            new("ImportantCakeShop", DateTime.Now, 1, Cake.RedVelvet, 120.25)
-        };
+         return new List<Order>(){
+                    new Order { ClientName = "CakeBox", EstimatedDeliveryTime = DateTime.Now, Id = 1, Name = Cake.RedVelvet, Quantity=120 },
+                    new Order { ClientName = "ImportantCakeShop", EstimatedDeliveryTime = DateTime.Now, Id = 1, Name = Cake.RedVelvet, Quantity=120 }};
+       
     }
 
-    public void UpdateOrders(Order[] orders)
+    public void UpdateOrders(List<Order> orders)
     {
     }
 
     public List<Order> CancelledOrders() {
         List<Order> cancelledOrders = new List<Order>();
-        Order[] orders = GetLatestOrders();
+        List<Order> orders = GetLatestOrders();
         if (!orders.Any())
         {
             return new List<Order>();
@@ -42,7 +41,7 @@ internal class OrderProvider : IOrderService
             {
                 cancelledOrders.Add(order);
             }
-            if (!checkPaymentProcess(order)) {
+            else if (!checkPaymentProcess(order)) {
                 cancelledOrders.Add(order);
             }
         }

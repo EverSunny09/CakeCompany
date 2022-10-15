@@ -4,9 +4,9 @@ namespace CakeCompany.Service;
 
 interface IOrderService
 {
-    Order[] GetLatestOrders();
+    List<Order> GetLatestOrders();
 
-    void UpdateOrders(Order[] orders);
+    void UpdateOrders(List<Order> orders);
 
     List<Order> CancelledOrders();
 }
