@@ -1,10 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using CakeCompany.Provider;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Runtime.CompilerServices;
-
-[assembly:InternalsVisibleTo("CakeCompany.UnitTest")]
 
 
 public class Program {

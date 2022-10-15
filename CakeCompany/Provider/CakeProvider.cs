@@ -33,26 +33,12 @@ internal class CakeProvider : ICakeService
         switch (order.Name)
         {
             case Cake.Chocolate:
-                return new()
-                {
-                    Cake = Cake.Chocolate,
-                    Id = new Guid(),
-                    Quantity = order.Quantity
-                };
+                return new Product(new Guid(), Cake.Chocolate, order.Quantity, order.Id);
+               
             case Cake.RedVelvet:
-                return new()
-                {
-                    Cake = Cake.RedVelvet,
-                    Id = new Guid(),
-                    Quantity = order.Quantity
-                };
+                return new Product(new Guid(), Cake.RedVelvet, order.Quantity, order.Id);
             default:
-                return new()
-                {
-                    Cake = Cake.Vanilla,
-                    Id = new Guid(),
-                    Quantity = order.Quantity
-                };
+                return new Product(new Guid(), Cake.Vanilla, order.Quantity, order.Id);
         }
     }
 
