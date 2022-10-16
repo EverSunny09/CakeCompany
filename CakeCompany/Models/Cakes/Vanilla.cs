@@ -1,3 +1,3 @@
 ﻿namespace CakeCompany.Models.Cakes;
 
-internal record Vanilla(string CakeName);
+public record Vanilla(string CakeName);

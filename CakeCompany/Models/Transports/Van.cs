@@ -2,7 +2,7 @@
 
 namespace CakeCompany.Models.Transports;
 
-internal class Van : IDeliveryService
+public class Van : IDeliveryService
 {
     public bool Deliver(List<Product> products)
     {
