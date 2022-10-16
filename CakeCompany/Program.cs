@@ -16,7 +16,7 @@ public class Program {
      .WriteTo.Console()
         .CreateLogger();
 
-        var serviceProvider = new ServiceCollection()
+        ServiceProvider serviceProvider = new ServiceCollection()
                 .AddLogging()
                 .AddTransient<IShipmentService, ShipmentProvider>()
                 .AddTransient<IOrderService, OrderProvider>()
@@ -25,8 +25,9 @@ public class Program {
                 .AddTransient<IPaymentService, PaymentProvider>()
                 .BuildServiceProvider();
 
-        var bar = serviceProvider.GetService<IShipmentService>();
-        bar.GetShipment();
+        IShipmentService shipmentService = serviceProvider.GetService<IShipmentService>();
+        if(shipmentService!=null)
+            shipmentService.GetShipment();
 
 
 
